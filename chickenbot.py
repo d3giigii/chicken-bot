@@ -31,3 +31,22 @@ async def on_message(message):
 @bot.command()
 async def cluck(ctx):
     await ctx.send("cluck")
+
+# On driver start. 
+@bot.event 
+async def on_ready(): 
+    print('Logged in as: ' + bot.user.name + '#' + bot.user.discriminator) 
+    print('Version: ' + discord.__version__)
+
+    # Setup error logging. 
+    log_filename = 'discord.log' 
+    logger = logging.getLogger('discord') 
+    logger.setLevel(logging.DEBUG) 
+    handler = logging.FileHandler(filename=log_filename, encoding='utf-8', mode='a') 
+    handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s:%(message)s')) 
+    logger.addHandler(handler) 
+    print('Logger started. See ' + log_filename + ' for log details.')
+
+# Log in. 
+token = str(config.get('BOT_TOKEN', 'Token')) 
+bot.run(token)
